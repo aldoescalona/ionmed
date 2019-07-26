@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Movimientos</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/main/tabs/productos"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="recargarMovimientos($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
+      refreshingText="Buscando...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-item color="light" *ngIf="usuarioService.pullMovs">
+    <ion-label>
+      Jale para actualizar
+    </ion-label>
+    <ion-icon slot="start" name="arrow-round-down"></ion-icon>
+  </ion-item>
+
+
+  <ion-card mode="ios" color="primary" *ngIf="producto">
+
+    <ion-card-header>
+      <ion-card-title>{{producto.nombre}}</ion-card-title>
+      <ion-card-subtitle>Lote: {{producto.lote}}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      {{producto.descripcion}}
+
+      <p>Caduca: {{producto.caducidad | date:'dd-MM-yyyy'}}</p>
+    </ion-card-content>
+
+
+  </ion-card>
+
+  <ion-list>
+    <ion-item *ngFor="let mov of movimientos">
+      <ion-note *ngIf="mov.tipo == 'ENTRADA'" slot="start">
+        <h1>{{mov.cantidad}}</h1>
+      </ion-note>
+      <ion-note *ngIf="mov.tipo == 'SALIDA'" slot="start">
+        <h1>-{{mov.cantidad}}</h1>
+      </ion-note>
+      <ion-label>
+        <p>{{mov.fecha | date:'dd-MM-yy'}}</p>
+        <p>{{mov.motivo}}</p>
+        <p>Suma: {{mov.sumatoria}}</p>
+      </ion-label>
+
+      <ion-note *ngIf="mov.tipo == 'ENTRADA'" slot="end" color="success">
+        <p>{{mov.tipo}}</p>
+      </ion-note>
+      <ion-note *ngIf="mov.tipo == 'SALIDA'" slot="end" color="danger">
+        <p>{{mov.tipo}}</p>
+      </ion-note>
+
+
+    </ion-item>
+
+
+  </ion-list>
+
+</ion-content>

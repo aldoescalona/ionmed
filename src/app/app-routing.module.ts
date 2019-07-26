@@ -1,8 +1,12 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
-  { path: '', loadChildren: './tabs/tabs.module#TabsPageModule' }
+  { path: 'main', loadChildren: './pages/tabs/tabs.module#TabsPageModule', canLoad: [ LoginGuard ] },
+  { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
+  { path: '', pathMatch: 'full', redirectTo: '/main/tabs/productos'}
+  // { path: 'producto', loadChildren: './productos/producto/producto.module#ProductoPageModule' }
 ];
 @NgModule({
   imports: [
